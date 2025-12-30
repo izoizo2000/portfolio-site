@@ -5,20 +5,22 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { vertexShader } from './shaders/particle.vert';
 import { fragmentShader } from './shaders/particle.frag';
-import { generateScatterdPoints, generateSpherePoints } from '@/lib/geometryUtils';
+import { generateScatterdPoints, generateSpherePoints, generateTorusPoints, generateTrianglePoints, generateSquarePoints } from '@/lib/geometryUtils';
 
 export default function Particles() {
     const pointRef = useRef<THREE.Points>(null);
     const geometryRef = useRef<THREE.BufferGeometry>(null);
     const materialRef = useRef<THREE.ShaderMaterial>(null);
+    const isTransitioning = useRef(false); // モーフィング中かどうか
 
     // モーフィングの進捗（0～1）
     const [progress, setProgress] = useState(0);
-    const [direction, setDirection] = useState(1); // 1: 増加, -1: 減少
+    const [shapeIndex, setShapeIndex] = useState(0); // どの形状か（0: 球体, 1: トーラス, 2: 三角形, 3: 四角形）
+    const [isFormingShape, setIsFormingShape] = useState(true); // true: 散乱→形状, false: 形状→散乱
     const [waitTime, setWaitTime] = useState(0); // 待機時間
 
     const particleCount = 2000;
-    const WAIT_DURATION = 3.0; // 待機時間（秒）
+    const WAIT_DURATION = 5.0; // 待機時間（秒）
     const MORPH_SPEED = 0.5; // モーフィング速度
 
     // 散乱状態の位置
@@ -30,6 +32,30 @@ export default function Particles() {
     const spherePositions = useMemo(() => {
         return generateSpherePoints(particleCount, 2);
     }, []);
+
+    // トーラス状態の位置
+    const torusPositions = useMemo(() => {
+        return generateTorusPoints(particleCount, 2, 0.7);
+    }, []);
+
+    // 三角形状態の位置
+    const trianglePositions = useMemo(() => {
+        return generateTrianglePoints(particleCount, 2);
+    }, []);
+
+    // 四角形状態の位置
+    const squarePositions = useMemo(() => {
+        return generateSquarePoints(particleCount, 3);
+    }, []);
+
+
+    // ターゲット形状の配列（散乱以外）
+    const targetShapes = useMemo(() => [
+        spherePositions,
+        torusPositions,
+        trianglePositions,
+        squarePositions
+    ], [spherePositions, torusPositions, trianglePositions, squarePositions]);
 
     // シェーダーの渡す値（uniform）
     const uniforms = useMemo(
@@ -44,16 +70,31 @@ export default function Particles() {
     // ジオメトリに属性を設定
     useEffect(() => {
         if (geometryRef.current) {
-            geometryRef.current.setAttribute(
-                'position',
-                new THREE.BufferAttribute(scatteredPositions, 3)
-            );
-            geometryRef.current.setAttribute(
-                'aTarget',
-                new THREE.BufferAttribute(spherePositions, 3)
-            );
+            const targetShape = targetShapes[shapeIndex];
+
+            if (isFormingShape) {
+                // 散乱 → 形状
+                geometryRef.current.setAttribute(
+                    'position', 
+                    new THREE.BufferAttribute(scatteredPositions, 3)
+                );
+                geometryRef.current.setAttribute(
+                    'aTarget',
+                    new THREE.BufferAttribute(targetShape, 3)
+                );
+            } else {
+                // 形状 → 散乱
+                geometryRef.current.setAttribute(
+                    'position',
+                    new THREE.BufferAttribute(targetShape, 3)
+                );
+                geometryRef.current.setAttribute(
+                    'aTarget',
+                    new THREE.BufferAttribute(scatteredPositions, 3)
+                );
+            }
         }
-    }, [scatteredPositions, spherePositions]);
+    }, [shapeIndex, isFormingShape, scatteredPositions, targetShapes]);
 
     // 毎フレーム実行される（アニメーション）
     useFrame((state, delta) => {
@@ -76,25 +117,37 @@ export default function Particles() {
 
         // モーフィングの進捗を更新
         setProgress((prev) => {
-            const next = prev + delta * MORPH_SPEED * direction;
+            const next = prev + delta * MORPH_SPEED;
 
-            // 球体に到達
+            // モーフィング完了
             if (next >= 1) {
-                setDirection(-1);
-                setWaitTime(WAIT_DURATION); // 待機開始
-                return 1;
-            } 
-            
-            // 散乱に到達
-            if (next <= 0) {
-                setDirection(1);
-                setWaitTime(WAIT_DURATION); // 待機開始
-                return 0;
-            }
+                if (!isTransitioning.current) {
+                    isTransitioning.current = true;
+
+                    if (isFormingShape) {
+                        // 散乱 → 形状 完了
+                        setIsFormingShape(false);
+                    } else {
+                        // 形状 → 散乱 完了
+                        setShapeIndex((prevIndex) => {
+                            const nextIndex = (prevIndex + 1) % targetShapes.length;
+                            console.log('現在のshapeIndex:', prevIndex, '→ 次:', nextIndex);
+                            return nextIndex;
+                        });
+                        setIsFormingShape(true);
+                    }
+                    setWaitTime(WAIT_DURATION); // 待機時間をセット
+
+                    // 次のフレームでフラグをリセット
+                    setTimeout(() => {
+                        isTransitioning.current = false;
+                    }, 0);
+                }
+                return 0; // 進捗をリセット
+            }        
             return next;
         });
     });
-
 
     return (
         <points ref={pointRef}>
