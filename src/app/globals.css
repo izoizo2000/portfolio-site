@@ -4,5 +4,13 @@ body {
   background: #000000;
   color: #ffffff;
   margin: 0;
-  overflow: hidden;
+}
+
+/* スクロールバー非表示 */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none; /* Firefox用 */
 }

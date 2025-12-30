@@ -7,16 +7,21 @@ import { vertexShader } from './shaders/particle.vert';
 import { fragmentShader } from './shaders/particle.frag';
 import { generateScatteredPoints } from '@/lib/geometry';
 import { PARTICLE_CONFIG, SHAPE_CONFIG } from '@/lib/constants/particle';
-import { SHAPES, SHAPE_COUNT } from '@/lib/constants/shapes';
-import { useMorphAnimation } from '@/hooks/useMorphAnimation';
+import { SHAPES } from '@/lib/constants/shapes';
 
-export default function Particles() {
+interface ParticlesProps {
+    shapeIndex: number;
+}
+
+export default function Particles({ shapeIndex }: ParticlesProps) {
     const pointRef = useRef<THREE.Points>(null);
     const geometryRef = useRef<THREE.BufferGeometry>(null);
     const materialRef = useRef<THREE.ShaderMaterial>(null);
 
-    // モーフィングアニメーション
-    const { shapeIndex, isFormingShape, progressRef } = useMorphAnimation(SHAPE_COUNT);
+    // モーフィング進捗
+    const progressRef = useRef(0);
+    const targetProgressRef = useRef(1); // 目標値（形状形成時は1）
+    const prevShapeIndexRef = useRef(shapeIndex);
 
     // 散乱状態の位置
     const scatteredPositions = useMemo(() => {
@@ -38,27 +43,33 @@ export default function Particles() {
         []
     );
 
-    // ジオメトリに属性を設定
+    // セクション変更時：散乱→新形状
     useEffect(() => {
         if (!geometryRef.current) return;
 
         const targetShape = targetShapes[shapeIndex];
-        const [fromPositions, toPositions] = isFormingShape
-            ? [scatteredPositions, targetShape]
-            : [targetShape, scatteredPositions];
 
         geometryRef.current.setAttribute(
             'position',
-            new THREE.BufferAttribute(fromPositions, 3)
+            new THREE.BufferAttribute(scatteredPositions, 3)
         );
         geometryRef.current.setAttribute(
             'aTarget',
-            new THREE.BufferAttribute(toPositions, 3)
+            new THREE.BufferAttribute(targetShape   , 3)
         );
-    }, [shapeIndex, isFormingShape, scatteredPositions, targetShapes]);
+
+        // 進捗をリセットして形状形成開始
+        progressRef.current = 0;
+        targetProgressRef.current = 1;
+        prevShapeIndexRef.current = shapeIndex;
+    }, [shapeIndex, scatteredPositions, targetShapes]);
 
     // 毎フレーム実行
     useFrame((_, delta) => {
+        // 進捗を目標値に向けて補完
+        const diff = targetProgressRef.current - progressRef.current;
+        progressRef.current += diff * delta * 3; // 補完速度
+
         if (materialRef.current) {
             materialRef.current.uniforms.uTime.value += delta;
             materialRef.current.uniforms.uProgress.value = progressRef.current;

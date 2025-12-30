@@ -4,13 +4,17 @@ import { Canvas } from '@react-three/fiber';
 import Particles from './Particles';
 import { CANVAS_CONFIG } from '@/lib/constants/canvas';
 
-export default function ThreeCanvas() {
+interface ThreeCanvasProps {
+    shapeIndex: number;
+}
+
+export default function ThreeCanvas({ shapeIndex }: ThreeCanvasProps) {
     return (
         <Canvas 
             camera={{ position: CANVAS_CONFIG.camera.position }}
             style={{ backgroundColor: CANVAS_CONFIG.style.backgroundColor }}
         >
-            <Particles />
+            <Particles shapeIndex={shapeIndex} />
         </Canvas>
     );
 }
