@@ -1,6 +1,9 @@
 // パーティクル設定
 export const PARTICLE_CONFIG = {
-    count: 2000,           // パーティクル数
+    count: {
+        desktop: 2000,
+        mobile: 1000,          // パーティクル数
+    },
     size: 30.0,            // パーティクルサイズ
     rotationSpeed: {       // 回転速度
         x: 0.05,

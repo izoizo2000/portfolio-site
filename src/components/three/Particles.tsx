@@ -23,14 +23,18 @@ export default function Particles({ shapeIndex }: ParticlesProps) {
     const targetProgressRef = useRef(1); // 目標値（形状形成時は1）
     const prevShapeIndexRef = useRef(shapeIndex);
 
+    // パーティクル数をデバイスに応じて決定
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+    const particleCount = isMobile ? PARTICLE_CONFIG.count.mobile : PARTICLE_CONFIG.count.desktop;
+
     // 散乱状態の位置
     const scatteredPositions = useMemo(() => {
-        return generateScatteredPoints(PARTICLE_CONFIG.count, SHAPE_CONFIG.scattered.spread);
+        return generateScatteredPoints(particleCount, SHAPE_CONFIG.scattered.spread);
     }, []);
 
     // 全形状の位置を生成
     const targetShapes = useMemo(() => {
-        return SHAPES.map(shape => shape.generate(PARTICLE_CONFIG.count));
+        return SHAPES.map(shape => shape.generate(particleCount));
     }, []);
 
     // シェーダーのuniform

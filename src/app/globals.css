@@ -11,6 +11,11 @@ body {
   display: none;
 }
 
-html {
+html, body {
   scrollbar-width: none; /* Firefox用 */
+  height: 100%;
+}
+
+html {
+  scroll-snap-type: y mandatory;
 }
