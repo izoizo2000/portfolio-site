@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import dynamic from "next/dynamic";
 import { SECTIONS } from "@/lib/constants/sections";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import { AboutSection, ContactSection, HeroSection, SkillSection, WorkSection } from '@/components/sections';
 
 // Three.jsはサーバサイドで動かないのでクライアントのみで読み込む
 const ThreeCanvas = dynamic(() => import("../components/three/Canvas"), {
@@ -105,32 +106,11 @@ export default function Home() {
       </div>
       {/* スクロールコンテンツ */}
       <main>
-        {SECTIONS.map(({ id, title }, index) => {
-          const isWorks = id === 'works';
-          return (
-            <section 
-              key={id} 
-              id={id}
-              className={`flex items-center justify-center relative ${
-                isWorks
-                  ? 'min-h-screen snap-start'
-                  : 'h-screen snap-start snap-always'
-              }`}
-            >
-              <h1 className="text-4xl font-bold text-white">{title}</h1>
-
-              {/* 最初のセクションのみスクロースインジケーター表示 */}
-              {index === 0 && (
-                <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce transition-opacity duration-500 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
-                  <div className="w-5 h-8 border-2 border-white/70 rounded-full flex justify-center pt-1.5">
-                    <div className="w-0.5 h-1.5 bg-white/70 rounded-full animate-pulse" />
-                  </div>
-                  <span className="text-sm text-white/70">Scroll</span>
-                </div>
-              )}
-            </section>
-          );
-        })} 
+        <HeroSection isScrolled={isScrolled} />
+        <AboutSection />
+        <SkillSection />
+        <WorkSection />
+        <ContactSection />
       </main>
     </>
   );
