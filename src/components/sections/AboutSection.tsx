@@ -1,3 +1,5 @@
+import { CAREER } from '@/lib/constants/career';
+
 export function AboutSection() {
     return (
         <section
@@ -25,18 +27,14 @@ export function AboutSection() {
                 <div className="p-8">
                     <div className="relative pl-8 border-l border-white/50">
                         <div className="space-y-10">
-                            <div className="relative">
-                                <div className="absolute -left-[41px] top-1 w-3 h-3 rounded-full bg-white/70" />
-                                <p className="text-sm text-white/80 mb-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">2020 - 2022</p>
-                                <p className="text-xl text-white font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">株式会社○○</p>
-                                <p className="text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">ゲームエンジニア</p>
-                            </div>
-                            <div className="relative">
-                                <div className="absolute -left-[41px] top-1 w-3 h-3 rounded-full bg-white" />
-                                <p className="text-sm text-white/80 mb-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">2022 - Present</p>
-                                <p className="text-xl text-white font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">株式会社△△</p>
-                                <p className="text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">フルスタックエンジニア</p>
-                            </div>
+                            {CAREER.map(({ period, company, role, isCurrent }) => (
+                                <div key={company} className="relative">
+                                    <div className={`absolute -left-[41px] top-1 w-3 h-3 rounded-full ${isCurrent ? 'bg-white' : 'bg-white/70'}`} />
+                                    <p className="text-sm text-white/80 mb-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{period}</p>
+                                    <p className="text-xl text-white font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{company}</p>
+                                    <p className="text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{role}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
