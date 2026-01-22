@@ -4,7 +4,7 @@ export function ContactSection() {
     return (
         <section
             id="contact"
-            className="min-h-screen pt-20 pb-16 md:py-0 md:h-screen snap-start snap-always flex flex-col items-center justify-center relative px-6 md:px-12"
+            className="min-h-screen pt-20 pb-16 md:py-0 md:h-screen md:snap-start md:snap-always flex flex-col items-center justify-center relative px-6 md:px-12"
         >
             {/* タイトル */}
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">

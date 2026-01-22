@@ -4,7 +4,7 @@ export function WorkSection() {
     return (
         <section
             id="works"
-            className="min-h-screen pt-20 pb-16 md:py-0 md:h-screen snap-start snap-always flex flex-col items-center justify-center relative" 
+            className="min-h-screen pt-20 pb-16 md:py-0 md:h-screen md:snap-start md:snap-always flex flex-col items-center justify-center relative" 
         >
             {/* コンテンツコンテナ */}
             <div className="bg-black/20 rounded-2xl p-4 md:p-8 mx-4 md:mx-0">

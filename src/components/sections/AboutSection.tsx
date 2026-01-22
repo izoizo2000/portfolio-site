@@ -5,7 +5,7 @@ export function AboutSection() {
     return (
         <section
             id="about"
-            className="min-h-screen pt-20 pb-8 md:py-0 md:h-screen snap-start snap-always flex items-center relative px-8 md:px-16"
+            className="min-h-screen pt-20 pb-8 md:py-0 md:h-screen md:snap-start md:snap-always flex items-center relative px-8 md:px-16"
         >
             <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16 bg-black/20 rounded-2xl p-4 md:p-8">
                 {/* 左: タイトル＆説明 */}
