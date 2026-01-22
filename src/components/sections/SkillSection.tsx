@@ -6,10 +6,10 @@ export function SkillSection() {
     return (
         <section
             id="skills"
-            className="h-screen snap-start snap-always flex flex-col items-center justify-center relative px-6 md:px-12"
+            className="min-h-screen pt-20 pb-16 md:py-0 md:h-screen snap-start snap-always flex flex-col items-center justify-center relative px-6 md:px-12"
         >
             {/* タイトル */}
-            <div className="mb-16 text-center">
+            <div className="mb-8 md:mb-16 text-center">
                 <h2 className="text-3xl md:text-5xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
                     Skills
                 </h2>
@@ -23,7 +23,7 @@ export function SkillSection() {
                 {SKILLS.map(({ category, items }) => (
                     <div
                         key={category}
-                        className="group p-6 bg-black/30 border border-white/20 rounded-lg hover:border-white/50 hover:bg-black/40 transition-all duration-300"
+                        className="group p-4 md:p-6 bg-black/30 border border-white/20 rounded-lg hover:border-white/50 hover:bg-black/40 transition-all duration-300"
                     >
                         <h3 className="text-xs font-bold text-white mb-5 uppercase tracking-widest drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
                             {category}
@@ -43,7 +43,7 @@ export function SkillSection() {
             </div>
 
             {/* 資格 */}
-            <div className="mt-12 w-full max-w-6xl">
+            <div className="mt-8 md:mt-12 w-full max-w-6xl">
                 <h3 className="text-xs font-bold text-white mb-4 uppercase tracking-widest text-center drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
                     Certifications
                 </h3>
