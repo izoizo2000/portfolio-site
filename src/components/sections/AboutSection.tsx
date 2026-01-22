@@ -7,7 +7,7 @@ export function AboutSection() {
             id="about"
             className="h-screen snap-start snap-always flex items-center relative px-8 md:px-16"
         >
-            <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-16">
+            <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-16 bg-black/20 rounded-2xl p-8">
                 {/* 左: タイトル＆説明 */}
                 <div className="p-8">
                     <div className="mb-8">
@@ -24,7 +24,7 @@ export function AboutSection() {
                 </div>
 
                 {/* 右: 経歴 */}
-                <div className="p-8">
+                <div className="p-8 mt-24">
                     <div className="relative pl-8 border-l border-white/50">
                         <div className="space-y-10">
                             {CAREER.map(({ period, company, role, isCurrent }) => (

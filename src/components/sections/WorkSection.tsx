@@ -6,18 +6,20 @@ export function WorkSection() {
             id="works"
             className="h-screen snap-start snap-always flex flex-col items-center justify-center relative" 
         >
-            {/* タイトル */}
-            <div className="mb-16 text-center">
-                <h2 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-                    Works
-                </h2>
-                <p className="text-white/90 mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
-                    My Project
-                </p>
-            </div>
+            {/* コンテンツコンテナ */}
+            <div className="bg-black/20 rounded-2xl p-8">
+                {/* タイトル */}
+                <div className="mb-12 text-center">
+                    <h2 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+                        Works
+                    </h2>
+                    <p className="text-white/90 mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                        My Project
+                    </p>
+                </div>
 
-            {/* 作品カード */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+                {/* 作品カード */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
                 {WORKS.map(({ id, title, category, description, isComingSoon }) => (
                     <div
                         key={id}
@@ -48,6 +50,7 @@ export function WorkSection() {
                         )}
                     </div>
                 ))}
+                </div>
             </div>
         </section>
     );
