@@ -4,12 +4,12 @@ export function WorkSection() {
     return (
         <section
             id="works"
-            className="h-screen snap-start snap-always flex flex-col items-center justify-center relative" 
+            className="min-h-screen pt-20 pb-16 md:py-0 md:h-screen snap-start snap-always flex flex-col items-center justify-center relative" 
         >
             {/* コンテンツコンテナ */}
-            <div className="bg-black/20 rounded-2xl p-8">
+            <div className="bg-black/20 rounded-2xl p-4 md:p-8 mx-4 md:mx-0">
                 {/* タイトル */}
-                <div className="mb-12 text-center">
+                <div className="mb-6 md:mb-12 text-center">
                     <h2 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
                         Works
                     </h2>
@@ -23,7 +23,7 @@ export function WorkSection() {
                 {WORKS.map(({ id, title, category, description, isComingSoon }) => (
                     <div
                         key={id}
-                        className="group p-8 bg-black/30 border border-white/20 rounded-lg hover:border-white/50 hover:bg-black/40 transition-all duration-300"
+                        className="group p-4 md:p-8 bg-black/30 border border-white/20 rounded-lg hover:border-white/50 hover:bg-black/40 transition-all duration-300"
                     >
                         {/* カテゴリラベル */}
                         <span className="text-xs font-bold text-white/70 uppercase tracking-widest drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
@@ -31,7 +31,7 @@ export function WorkSection() {
                         </span>
 
                         {/* タイトル */}
-                        <h3 className="text-2xl font-bold text-white mt-4 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                        <h3 className="text-xl md:text-2xl font-bold text-white mt-4 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
                             {title}
                         </h3>
 

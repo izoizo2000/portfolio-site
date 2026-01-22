@@ -6,7 +6,7 @@ export function HeroSection({ isScrolled }: HeroSectionProps) {
     return (
         <section
             id="hero"
-            className="h-screen snap-start snap-always flex flex-col items-center justify-center relative"
+            className="min-h-screen snap-start snap-always flex flex-col items-center justify-center relative"
         >
             <div className="text-center">
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
