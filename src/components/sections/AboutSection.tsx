@@ -1,4 +1,5 @@
 import { CAREER } from '@/lib/constants/career';
+import { ABOUT } from '@/lib/constants/about';
 
 export function AboutSection() {
     return (
@@ -11,15 +12,14 @@ export function AboutSection() {
                 <div className="p-8">
                     <div className="mb-8">
                         <h2 className="text-5xl md:text-7xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                            About Me
+                            {ABOUT.title}
                         </h2>
                         <p className="text-white/90 mt-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                            Background & Experience
+                            {ABOUT.subtitle}
                         </p>
                     </div>
-                    <p className="text-lg text-white leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                        ゲーム開発からキャリアをスタートし、現在はフルスタックエンジニアとして
-                        Web開発・クラウドインフラに従事しています。
+                    <p className="text-lg text-white leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] whitespace-pre-line">
+                        {ABOUT.description}
                     </p>
                 </div>
 
